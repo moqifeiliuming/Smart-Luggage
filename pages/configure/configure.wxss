@@ -1,0 +1,27 @@
+.container {
+  border-top: 1rpx solid black;
+}
+.container view {
+  margin: 20rpx 0;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+.textColor {
+  color: gray;
+}
+.modify_btn {
+  display: flex;
+  justify-content: space-around;
+  margin: 100rpx 10rpx;
+}
+input {
+  text-align: center;
+  outline-style: solid;
+  outline-width: 1rpx;
+}
+
+
+
+
+
+

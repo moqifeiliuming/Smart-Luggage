@@ -1,0 +1,39 @@
+<view class="container">
+  <!-- 设备ID -->
+  <view>
+    <text> 设备ID：</text>
+    <text wx:if="{{ showIdFlag }}" class="textColor">{{ device_id }}</text>
+    <view wx:else >
+      <input class="weui-input" auto-focus placeholder="输入设备ID" value="{{ device_id }}" bindinput="modifyIdHanlde" type="number" maxlength="9" bindblur="modifyIdConfirm"/>
+    </view>
+  </view>
+  <!-- 密钥 -->
+  <view>
+    <text> 密   钥：  </text>
+    <text wx:if="{{ showKeyFlag }}" class="textColor">{{ api_key }}</text>
+    <view wx:else >
+      <input class="weui-input" auto-focus placeholder="输入密钥" value="{{ api_key }}" bindinput="modifyKeyHanlde" 
+      bindblur="modifyKeyConfirm"/>
+    </view>
+  </view>
+  <!-- 定时刷新时间 -->
+  <view>
+    <text> 定时刷新：</text>
+    <text wx:if="{{ showrefreshTime }}" class="textColor">{{ refreshTime }} 毫秒</text>
+    <view wx:else >
+      <input class="weui-input" auto-focus placeholder="输入时长" value="{{ refreshTime }}" bindinput="modifyTimeHanlde" type="number"
+      bindblur="modifyTimeConfirm"/>
+    </view>
+  </view>
+  <view>
+    <text>现在所在：</text>
+    <text wx:if="{{ address }}" class="textColor">{{ address }}</text>
+    <text wx:else class="textColor">正在获取...</text>
+  </view>
+  <!-- 修改按钮组 -->
+  <view class="modify_btn">
+    <button type="primary" plain="true" bindtap="modifyIdBtnHanlde">修改ID</button>
+    <button type="primary" plain="true" bindtap="modifyKeyBtnHanlde">修改密钥</button>
+    <button type="primary" plain="true" bindtap="modifyTimeBtnHanlde">修改定时时间</button>
+  </view>
+</view>

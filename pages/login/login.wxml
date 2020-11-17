@@ -1,0 +1,10 @@
+
+<view class="container">
+  <view class="logle">
+    <image src="./onenetlogle.png"></image>
+  </view>
+  <input class="weui-input" value="{{ device_id }}" maxlength="9" type="number" placeholder="输入设备ID(9位数)" bindinput="device_idHanlde"/>
+  <input class="weui-input" value="{{ api_key }}"  type="text" placeholder="输入密钥" bindinput="api_keyHandle"/>
+  <button class="login_btn" type="primary" bindtap="loginHanlde">登陆Onenet</button>
+</view>
+

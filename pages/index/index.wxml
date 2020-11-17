@@ -1,0 +1,66 @@
+<view class="containter" >
+  <block wx:if="{{ onenetData }}">
+    <!-- 表头 -->
+    <view class="dataHeader" >
+      <text>数据</text>
+      <text>时间</text>
+    </view>
+    <!-- 温度 -->
+    <view class="dataContent" hover-class="hoverClass" bindtap="detailHanlde" wx:if="{{ temp }}" data-id="temp">
+      <text class="dataUnit"> 温度</text> 
+      <text class="data">{{temp.value}} °C</text>
+      <text class="dataTime">{{temp.at }}</text>
+    </view>
+      <!-- 湿度 -->
+    <view class="dataContent" hover-class="hoverClass" bindtap="detailHanlde" wx:if="{{ hum }}" data-id="hum">
+      <text class="dataUnit" >湿度</text> 
+      <text class="data">{{hum.value}} %rh</text>
+      <text class="dataTime">{{hum.at }}</text>
+    </view>
+    <!-- 压力 -->
+    <view class="dataContent" hover-class="hoverClass" bindtap="detailHanlde" wx:if="{{ weight }}" data-id="weight">
+      <text class="dataUnit">压力</text> 
+      <text class="data">{{weight.value}} N</text>
+      <text class="dataTime">{{weight.at }}</text>
+    </view>
+    <!-- 经度 -->
+    <view class="dataContent" hover-class="hoverClass" bindtap="detailHanlde" wx:if="{{ longitude }}" data-id="longitude">
+      <text class="dataUnit">经度</text> 
+      <text class="data">{{longitude.value}}°</text>
+      <text class="dataTime">{{longitude.at }}</text>
+    </view>
+    <!-- 纬度 -->
+    <view class="dataContent lastData" hover-class="hoverClass" bindtap="detailHanlde" wx:if="{{ latitude }}" data-id="latitude">
+      <text class="dataUnit">纬度</text> 
+      <text class="data">{{latitude.value}}°</text>
+      <text class="dataTime">{{latitude.at }}</text>
+    </view>
+      <!-- 控制栏 -->
+    <view class="menu"  wx:if="{{ onenetData }}">
+      <view><button type="primary" bindtap="openMapHandle" size="">打开地图</button></view>
+      <view>
+        <switch checked="{{timedRefresh}}" bindchange="timedRefreshHandle"/>  
+        <text>定时刷新</text>
+      </view>
+      <view>
+        <switch checked="{{statisticalChartSwitch}}" bindchange="statisticalChartSwitchHandle"/>
+        <text>统计图</text>
+      </view>
+    </view>
+  </block>
+  <view class="btn_area">
+    <button type="primary" bindtap="getDataHandle">更新数据</button>
+    <button type="primary" bindtap="getHistoryData">查看历史数据</button>
+  </view>
+  <!-- 统计图区域 -->
+  <scroll-view wx:if="{{ statisticalChartSwitch }}" class="canvasGroup scrollView" scroll-x="true">
+    <canvas canvas-id="temp" binderror="canvasIdErrorCallback"></canvas>
+  </scroll-view>
+  <scroll-view wx:if="{{ statisticalChartSwitch }}" class="canvasGroup scrollView" scroll-x="true">
+    <canvas canvas-id="hum" binderror="canvasIdErrorCallback"></canvas>
+  </scroll-view>
+  <scroll-view wx:if="{{ statisticalChartSwitch }}" class="canvasGroup scrollView" scroll-x="true">
+    <canvas canvas-id="weight" binderror="canvasIdErrorCallback"></canvas>
+  </scroll-view>
+
+</view>

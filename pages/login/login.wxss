@@ -1,0 +1,30 @@
+/* pages/login/login.wxss */
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+  background-color: #05142B;
+} 
+.logle {
+  width: 360rpx;
+  height: 240rpx;
+  background-color: #05142B;
+
+}
+.weui-input {
+  width: 600rpx;
+  height: 75rpx;
+  outline-style: solid;
+  outline-color: blueviolet;
+  text-align: center;
+  margin: 10rpx;
+  color: #fff;
+}
+.login_btn {
+  position: absolute;
+  bottom: 200rpx;
+}

@@ -1,0 +1,41 @@
+<view class="container" >
+  <!-- 选择开始时间 -->
+  <view class="section">
+    <view class="section__title">选择开始日期: </view>
+    <picker mode="date" value="{{startDate}}" start="2020-11-11" bindchange="bindStartDateChangeHanlde">
+      <view class="picker">{{startDate}}</view>
+    </picker>
+    <picker mode="time" value="{{startTime}}" start="00:00" end="23:59" bindchange="bindStartTimeChangeHanlde">
+      <view class="picker">{{startTime}}</view>
+    </picker>
+  </view>
+  <!-- 选择结束时间 -->
+  <view class="section">
+    <view class="section__title">选择结束日期: </view>
+    <picker mode="date" value="{{ endDate }}" start="2020-11-12" bindchange="bindEndDateChangeHanlde">
+      <view class="picker">{{ endDate }}</view>
+    </picker>
+    <picker mode="time" value="{{endTime}}" start="00:00" end="23:59" bindchange="bindEndTimeChangeHanlde">
+      <view class="picker">{{endTime}}</view>
+    </picker>
+  </view>
+  <!-- 表头 -->
+  <view class="dataHeader" >
+      <text>{{ dataName }}</text>
+      <text>时间</text>
+    </view>
+  <block wx:if="{{ targetData }}"  >
+    <block wx:for="{{ targetData }}">
+      <!-- 数据历史 -->
+      <view class="dataContent" hover-class="hoverClass" >
+        <text class="data">{{ item.value }}{{dataUnitSymbol}}</text>
+        <text class="dataTime">{{ item.at }}</text>
+      </view>
+    </block>
+  </block>
+  <block wx:else> 
+    <image src="./感叹号.png" class="erroriamge"></image>
+    <text class="errortext">{{startDate}} {{startTime}} -- {{endDate}} {{endTime}}</text>
+    <text class="errortext">该时间段没有找到{{dataName}}数据</text>
+  </block>
+</view>

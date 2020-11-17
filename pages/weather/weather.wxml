@@ -1,0 +1,79 @@
+<!-- 头部区域 -->
+<view class="header">
+  <!-- 城市 -->
+  <view class="top">
+    <view class="city">
+      {{city}}
+    </view>
+    <!-- 搜索框 -->
+    <view class="search">
+      <input placeholder="输入城市名" bindinput="bindKeyInput" bindconfirm="search" placeholder-style="color:white"></input>
+      <view class="bt_search" bindtap="search">
+        <icon type="search" size="18" color="white"></icon>
+      </view>
+    </view>
+  </view>
+<!-- 实时预报区域 -->
+  <view class="center">
+    <!-- 温度 -->
+    <view class="tmp">
+      {{tmp}}°
+    </view>
+    <image mode="widthFix" class="cond-image" src="https://www.jisuapi.com/weather/static/images/weathercn02/{{ img }}.png"></image>
+  </view>
+  <!-- 细节显示 -->
+  <view class="bottom">
+    <view>{{wind_dir}} {{wind_sc}}</view>
+    <view>湿度 {{hum}}%</view>
+    <view>气压 {{pres}}Pa</view>
+  </view>
+</view>
+
+<!-- 24小时预报区域 -->
+<view class="container">
+  <view class="hourly_title">24小时预报</view>
+  <scroll-view scroll-x="true" class="hourly">
+    <view class="h_item" wx:for="{{hourly}}" wx:key="index">
+      <text class="h_time">{{item.time}}</text>
+      <view class="h_img">
+        <image mode="widthFix" src="https://www.jisuapi.com/weather/static/images/weathercn02/{{ item.img }}.png"></image>
+      </view>
+      <text class="h_tmp">{{item.tmp}}°</text>
+      <text class="h_wind_dir">{{item.weather}}</text>
+    </view>
+    <!-- 7天预报区域 -->
+  </scroll-view>
+  <view class="hourly_title">7天预报</view>
+  <scroll-view scroll-x="true" class="daily">
+    <view class="d_item" wx:for="{{daily}}" wx:key="index">
+      <text class="d_txt">{{item.day}}</text>
+      <text class="d_date">{{item.date}}</text>
+      <text class="h_tmp">{{item.templow}}°~{{item.temphigh}}°</text>
+      <view class="h_img">
+        <text>白天：</text>
+        <image mode="widthFix" src="https://www.jisuapi.com/weather/static/images/weathercn02/{{item.img_d}}.png"></image>
+      </view>
+      <text class="dayColor">{{item.winddirect_d}}</text>
+      <text class="dayColor">{{item.windpower_d}}</text>
+      <view class="h_img">
+        <text class="dayMarTop">夜晚：</text>
+        <image mode="widthFix" src="https://www.jisuapi.com/weather/static/images/weathercn02/{{item.img_n}}.png"></image>
+      </view>
+      <text class="dayColor">{{item.winddirect_d}}</text>
+      <text class="dayColor">{{item.windpower_d}}</text>
+      <text class="dayMarTop">日出时间：</text>
+      <text class="dayColor">{{item.sunrise}}</text>
+      <text class="dayMarTop">日落时间：</text>
+      <text class="dayColor">{{item.sunset}}</text>
+    </view>
+  </scroll-view>
+</view>
+<!-- 温馨提醒区域 -->
+<view class="footer">
+  <text class="footerHeader">温馨提示:</text>
+  <view wx:for="{{imformation}}" wx:key="index" class="footerDetail">
+    <text class="iname">{{ item.iname }}</text>
+    <text class="ivalue">{{ item.ivalue }}</text>
+    <text class="detail">{{ item.detail }}</text>
+  </view>
+</view>

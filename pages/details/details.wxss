@@ -1,0 +1,47 @@
+.section {
+  display: flex;
+  justify-content: space-around;
+  font-size: 35rpx;
+  color: black;
+  padding: 20rpx 0;
+  height: 50rpx;
+}
+.section__title {
+  font-size: 40rpx;
+}
+.picker {
+  text-align: center;
+  line-height: 50rpx;
+  color: red;
+}
+.dataHeader {
+  display: flex;
+  font-size: 50rpx;
+  font-weight: bold;
+  justify-content: space-around;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid black;
+  transform: translateX(-60rpx);
+}
+.dataContent {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-around;
+  margin: 40rpx 0 50rpx 10rpx;
+  font-size: 38rpx;
+  color: #333;
+
+}
+.container :nth-child(9) {
+  border-bottom: 1px dotted #ccc;
+}
+.erroriamge {
+  transform: translateX(40rpx);
+}
+.errortext {
+  display: block;
+  margin: 50rpx 20rpx;
+  font-size: 38rpx;
+  text-align: center;
+  color: red;
+}

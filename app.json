@@ -1,0 +1,45 @@
+{
+  "pages":[
+    "pages/login/login",
+    "pages/index/index",
+    "pages/configure/configure",
+    "pages/details/details",
+    "pages/weather/weather",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "OneNet最新数据",
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh": true 
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "查看",
+      "borderStyle": "black",
+      "iconPath": "./icon/主页面.png",
+      "selectedIconPath": "./icon/主页面被选中.png"
+    },{
+      "pagePath": "pages/weather/weather",
+      "text": "天气",
+      "iconPath": "./icon/天气.png",
+      "selectedIconPath": "./icon/天气被选中.png",
+      "borderStyle": "black"
+    },{
+      "pagePath": "pages/configure/configure",
+      "text": "配置",
+      "iconPath": "./icon/配置.png",
+      "selectedIconPath": "./icon/配置被选中.png",
+      "borderStyle": "black"
+    }]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序天气定位" 
+    }
+  }
+}

@@ -1,0 +1,76 @@
+.dataHeader {
+  display: flex;
+  font-size: 50rpx;
+  font-weight: bold;
+  justify-content: space-around;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid black;
+}
+.hoverClass {
+  background-color: #ccc;
+}
+.dataContent {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  margin: 40rpx 0 50rpx 10rpx;
+  font-size: 38rpx;
+  color: #333;
+}
+.dataUnit {
+  flex: 2;
+  font-weight: bold;
+}
+.data {
+  flex: 3;
+  text-align: center;
+}
+.dataTime {
+  flex: 6;
+  text-align: end;
+}
+.lastData {
+  padding-bottom: 30rpx;
+  margin-bottom: 30rpx;
+  border-bottom: 1rpx solid black;
+}
+.menu {
+  display: flex;
+  justify-content: space-around;
+}
+.menu view {
+  display: flex;
+  flex-direction: column;
+}
+.btn_area {
+  position: fixed;
+  left: 0;
+  bottom: 0rpx;
+  display: flex;
+  justify-content: space-between;
+  z-index: 999;
+}
+.btn_area :last-child {
+  left: 375rpx;
+  transform: translateX(-100%);
+}
+
+canvas {
+  width: 262%;
+  height: 650rpx;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.canvasGroup :last-child {
+  height: 700rpx;
+}
+/* .scrollView {
+  white-space: nowrap;
+  overflow-x: auto;
+} */
+.scrollView canvas {
+  display: inline-block;
+}
+.scrollView text {
+  display: inline-block;
+}

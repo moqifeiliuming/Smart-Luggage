@@ -36,7 +36,15 @@
   border-bottom: 1px dotted #ccc;
 }
 .erroriamge {
-  transform: translateX(40rpx);
+  display: flex;
+  width: 100%;
+  height: 250rpx;
+  margin-bottom: 50rpx auto;
+  justify-content: center;
+}
+.erroriamge image {
+  width: 250rpx;
+  height: 250rpx;
 }
 .errortext {
   display: block;

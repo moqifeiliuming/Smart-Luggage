@@ -24,16 +24,16 @@
       <text class="dataTime">{{weight.at }}</text>
     </view>
     <!-- 经度 -->
-    <view class="dataContent" hover-class="hoverClass" bindtap="detailHanlde" wx:if="{{ longitude }}" data-id="longitude">
+    <view class="dataContent" hover-class="hoverClass" bindtap="detailHanlde" wx:if="{{ longitude }}" data-id="lon">
       <text class="dataUnit">经度</text> 
-      <text class="data">{{longitude.value}}°</text>
-      <text class="dataTime">{{longitude.at }}</text>
+      <text class="data">{{ longitude }}</text>
+      <text class="dataTime">{{ gps.at }}</text>
     </view>
     <!-- 纬度 -->
-    <view class="dataContent lastData" hover-class="hoverClass" bindtap="detailHanlde" wx:if="{{ latitude }}" data-id="latitude">
+    <view class="dataContent lastData" hover-class="hoverClass" bindtap="detailHanlde" wx:if="{{ latitude }}" data-id="lat">
       <text class="dataUnit">纬度</text> 
-      <text class="data">{{latitude.value}}°</text>
-      <text class="dataTime">{{latitude.at }}</text>
+      <text class="data">{{latitude}}</text>
+      <text class="dataTime">{{gps.at }}</text>
     </view>
       <!-- 控制栏 -->
     <view class="menu"  wx:if="{{ onenetData }}">
@@ -53,6 +53,31 @@
     <button type="primary" bindtap="getHistoryData">查看历史数据</button>
   </view>
   <!-- 统计图区域 -->
+    <!-- 选择开始时间 -->
+  <view class="section" wx:if="{{ statisticalChartSwitch }}">
+    <view class="section__title">选择开始日期: </view>
+    <picker mode="date" value="{{startDate}}" start="2020-11-11" bindchange="bindStartDateChangeHanlde">
+      <view class="picker">{{startDate}}</view>
+    </picker>
+    <picker mode="time" value="{{startTime}}" start="00:00" end="23:59" bindchange="bindStartTimeChangeHanlde">
+      <view class="picker">{{startTime}}</view>
+    </picker>
+  </view>
+    <!-- 选择结束时间 -->
+  <view class="section" wx:if="{{ statisticalChartSwitch }}">
+    <view class="section__title">选择结束日期: </view>
+    <picker mode="date" value="{{ endDate }}" start="2020-11-12" bindchange="bindEndDateChangeHanlde">
+      <view class="picker">{{ endDate }}</view>
+    </picker>
+    <picker mode="time" value="{{endTime}}" start="00:00" end="23:59" bindchange="bindEndTimeChangeHanlde">
+      <view class="picker">{{endTime}}</view>
+    </picker>
+  </view>
+  <block wx:if="{{ statisticalChartDataFlag && statisticalChartSwitch }}">
+    <view class="erroriamge"><image src="../../images/感叹号.png" ></image></view>
+    <text class="errortext">{{startDate}} {{startTime}} -- {{endDate}} {{endTime}}</text>
+    <text class="errortext">该时间段没有找到{{dataName}}数据,请选择正确时间段</text>
+  </block>
   <scroll-view wx:if="{{ statisticalChartSwitch }}" class="canvasGroup scrollView" scroll-x="true">
     <canvas canvas-id="temp" binderror="canvasIdErrorCallback"></canvas>
   </scroll-view>

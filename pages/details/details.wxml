@@ -24,8 +24,8 @@
       <text>{{ dataName }}</text>
       <text>时间</text>
     </view>
-  <block wx:if="{{ targetData }}"  >
-    <block wx:for="{{ targetData }}">
+  <block wx:if="{{ targetData }}" >
+    <block wx:for="{{ targetData }}" >
       <!-- 数据历史 -->
       <view class="dataContent" hover-class="hoverClass" >
         <text class="data">{{ item.value }}{{dataUnitSymbol}}</text>
@@ -34,8 +34,8 @@
     </block>
   </block>
   <block wx:else> 
-    <image src="./感叹号.png" class="erroriamge"></image>
+    <view class="erroriamge"><image src="../../images/感叹号.png" ></image></view>
     <text class="errortext">{{startDate}} {{startTime}} -- {{endDate}} {{endTime}}</text>
-    <text class="errortext">该时间段没有找到{{dataName}}数据</text>
+    <text class="errortext">该时间段没有找到{{dataName}}数据,请选择正确时间段</text>
   </block>
 </view>

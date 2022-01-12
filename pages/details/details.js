@@ -74,22 +74,33 @@ Page({
 /*----------------------------------------------辅助函数部分start--------------------------------------------------*/ 
   // 数据处理
   hanldeData(data){
-    let targetData = data.filter(value=>{
-      return value.id == this.data.id;
-    })[0]
+    let targetData = data[0]
+    // let targetData = data.filter(value=>{    //gps的ID并非this.data.id
+    //   return value.id == this.data.id;
+    // })[0]
     for(var i = 0; i < targetData.datapoints.length ; i++)
-    targetData.datapoints[i].at = targetData.datapoints[i].at.substring(0, targetData.datapoints[i].at.length - 4);
-    this.setData({ targetData: targetData.datapoints.reverse()});
+      targetData.datapoints[i].at = targetData.datapoints[i].at.substring(0, targetData.datapoints[i].at.length - 4);
+
+    if( this.data.id == 'lat' || this.data.id == 'lon' ){
+      console.log('是gps数据')
+      const ID = this.data.id ;
+      let value = null;
+      for(var i = 0; i < targetData.datapoints.length ; i++){
+        value = targetData.datapoints[i].value[ID].substring(0, targetData.datapoints[i].value[ID].indexOf('.') + 7).replace('.', '°') + '\''
+        targetData.datapoints[i].value = value
+      }
+    }
+    this.setData({ targetData: targetData.datapoints.reverse() });
   },
 
   // 为名称和单位赋值
   getDataInformation(){
     switch(this.data.id) {
-      case 'temp':{ wx.setNavigationBarTitle({title: '温度历史数据'}), this.setData({ dataName: "温度", dataUnitSymbol: "°C"}) } break;
+      case 'temp':{ wx.setNavigationBarTitle({title: '温度历史数据'}), this.setData({ dataName: "温度", dataUnitSymbol: " °C"}) } break;
       case 'hum':{wx.setNavigationBarTitle({title: '湿度历史数据'}), this.setData({ dataName: "湿度", dataUnitSymbol: " %rh"}) } break;
       case 'weight':{wx.setNavigationBarTitle({title: '压力历史数据'}), this.setData({ dataName: "压力", dataUnitSymbol: " N"})} break;
-      case 'latitude':{wx.setNavigationBarTitle({title: '经度历史数据'}), this.setData({ dataName: "经度", dataUnitSymbol: "°"})}break;
-      case 'longitude':{wx.setNavigationBarTitle({title: '纬度历史数据'}), this.setData({ dataName: "纬度", dataUnitSymbol:"°"})}break;
+      case 'lon':{wx.setNavigationBarTitle({title: '经度历史数据'}), this.setData({ dataName: "经度", dataUnitSymbol: " "})}break;
+      case 'lat':{wx.setNavigationBarTitle({title: '纬度历史数据'}), this.setData({ dataName: "纬度", dataUnitSymbol:" "})}break;
     }
   },
   
@@ -99,6 +110,8 @@ Page({
     let end = this.data.endDate +"T"+ this.data.endTime + ":00";
     console.log(start,end)
     let search_id = this.data.id;
+    if( this.data.id == 'lat' || this.data.id == 'lon' ) search_id = 'gps';
+    console.log("当前ID为：",search_id)
     var _this = this;
     wx.showLoading({ title: '正在加载', })   // loading 提示框
     wx.request({                            //获取指定的onenet历史数据

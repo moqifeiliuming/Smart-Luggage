@@ -1,3 +1,6 @@
+page {
+  /* background-color: #ccc; */
+}
 .dataHeader {
   display: flex;
   font-size: 50rpx;
@@ -41,6 +44,41 @@
 .menu view {
   display: flex;
   flex-direction: column;
+}
+.section {
+  display: flex;
+  justify-content: space-around;
+  font-size: 35rpx;
+  color: black;
+  padding: 20rpx 0;
+  height: 50rpx;
+  margin-top: 20rpx;
+}
+.section__title {
+  font-size: 40rpx;
+}
+.picker {
+  text-align: center;
+  line-height: 50rpx;
+  color: red;
+}
+.errortext {
+  display: block;
+  margin: 50rpx 20rpx;
+  font-size: 38rpx;
+  text-align: center;
+  color: red;
+}
+.erroriamge {
+  display: flex;
+  width: 100%;
+  height: 250rpx;
+  margin-bottom: 50rpx auto;
+  justify-content: center;
+}
+.erroriamge image {
+  width: 250rpx;
+  height: 250rpx;
 }
 .btn_area {
   position: fixed;

@@ -7,14 +7,19 @@ Page({
     hum: null,                       //存储最新的湿度
     temp: null,                      //存储最新的温度
     weight: null,                    //存储最新的压力
+    gps:{                            //存储最新的gps信息
+      lon: 109.485839,
+      lat: 19.5065468,
+    },
     latitude: null,                  //存储最新的纬度
     longitude: null,                 //存储最新的经度
     timedRefresh: false,             //定时刷新开关
-    statisticalChartSwitch: false,    //统计图开关
+    statisticalChartSwitch: false,   //统计图开关
     statisticalChartFlag: false,     //统计图是否需要暂时关闭标志
-    timedRefreshFlag: false,         //是否为定时刷新的标志
+    timedRefreshFlag: false,         //定时刷新的标志
     timer: null,                     //定时刷新的定时器
     animationFlag: true,             //打开定时刷新则关闭统计图动画
+    statisticalChartDataFlag: true,  //统计图是否有数据 （用于在页面没有获取到数据时触发）
   },
 
   //生命周期函数--监听页面加载
@@ -26,10 +31,9 @@ Page({
       success (res) {
         const latitude = res.latitude       //获取纬度
         const longitude = res.longitude     //获取经度
-        console.log("当前经纬度为：",latitude,longitude)
+        console.log("当前微信小程序获取到的经纬度为：",longitude,latitude)
         app.globalData.selfLatitude = latitude;
         app.globalData.selfLongitude = longitude;
-        console.log(app.globalData.selfLatitude,app.globalData.selfLongitude)
       },
       fail (){
         wx.showToast({
@@ -72,7 +76,7 @@ Page({
         "api-key": app.globalData.api_key ,
       },
       success: function(res){
-        console.log(res.data.data.datastreams);
+        console.log("当前获取到的最新数据",res.data.data.datastreams);
         if(res.data.data.datastreams != null){
           _this.grtdetail(res.data.data.datastreams);      // 裁剪时间字符串的后四位，并且拆分onenet数据
           _this.setData({onenetData : res.data.data.datastreams});  //为onenetData赋值
@@ -99,8 +103,8 @@ Page({
           case 0:{ wx.navigateTo({ url: '../details/details?unit=' + "temp"}) }break;
           case 1:{ wx.navigateTo({ url: '../details/details?unit=' + "hum"}) }break;
           case 2:{ wx.navigateTo({ url: '../details/details?unit=' + "weight"}) }break;
-          case 3:{ wx.navigateTo({ url: '../details/details?unit=' + "latitude"}) }break;
-          case 4:{ wx.navigateTo({ url: '../details/details?unit=' + "longitude"}) }break;
+          case 3:{ wx.navigateTo({ url: '../details/details?unit=' + "lat"}) }break;
+          case 4:{ wx.navigateTo({ url: '../details/details?unit=' + "lon"}) }break;
         }
       },
       fail (res) {
@@ -159,12 +163,18 @@ Page({
 
   // 统计图开关处理函数
   statisticalChartSwitchHandle(){
+    var newTime = util.formatTime(new Date)           //获取当前日期时间
+    var yesterdaytime = util.formatTime(new Date(new Date().setDate(new Date().getDate()-1)))   //获取前一天的日期时间
+    this.setData({
+      startDate: yesterdaytime.substring(0,10),
+      startTime: yesterdaytime.substring(11,16),
+      endDate: newTime.substring(0,10),
+      endTime: newTime.substring(11,16),
+    })
     this.data.statisticalChartFlag = false;   //统计图标志需要暂时关闭
     this.setData({ statisticalChartSwitch: !this.data.statisticalChartSwitch })
     if(this.data.statisticalChartSwitch){
-      this.statisticalChartData("temp")       //获取历史数据
-      this.statisticalChartData("hum")         
-      this.statisticalChartData("weight")                  
+      this.callFunction()      //调用 获取统计图数据 辅助函数
       setTimeout(function(){
         wx.pageScrollTo({ scrollTop: 300 , duration: 300 })
       },500)
@@ -174,11 +184,10 @@ Page({
   // 打开地图处理函数
   openMapHandle(){
     wx.openLocation({
-      latitude: this.data.latitude.value,
-      longitude: this.data.longitude.value,
-      scale: 10,          //缩放比例
+      latitude: parseFloat(this.data.gps.value.lat),   //将字符串转换为小数型
+      longitude: parseFloat(this.data.gps.value.lon),
+      scale: 10,                                       //缩放比例
       name: "当前位置",
-      
     })
   },
 
@@ -189,25 +198,63 @@ Page({
       url: '../details/details?unit=' + e.currentTarget.dataset.id ,
     })
   },
+
+  // 开始日期处理函数
+  bindStartDateChangeHanlde: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      startDate: e.detail.value
+    })
+    this.callFunction()      //调用 获取统计图数据 辅助函数
+  },
+  // 开始时间处理函数
+    bindStartTimeChangeHanlde: function(e) {
+      console.log('picker发送选择改变，携带值为', e.detail.value)
+      this.setData({
+        startTime: e.detail.value
+      })
+      this.callFunction()      //调用 获取统计图数据 辅助函数
+    },
+  // 结束日期处理函数
+  bindEndDateChangeHanlde: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      endDate: e.detail.value
+    })
+    this.callFunction()      //调用 获取统计图数据 辅助函数
+  },
+  // 结束时间处理函数
+  bindEndTimeChangeHanlde: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      endTime: e.detail.value
+    })
+    this.callFunction()      //调用 获取统计图数据 辅助函数
+  },
 /* ---------------------------------------------处理函数部分end-------------------------------------------------*/ 
 /*----------------------------------------------辅助函数部分start--------------------------------------------------*/ 
 
   // 裁剪时间字符串的后四位，并且拆分onenet数据
   grtdetail (data){
-      for(var i = 0; i < data.length ; i++)
-        data[i].datapoints[0].at = data[i].datapoints[0].at.substring(0, data[i].datapoints[0].at.length - 4);
-      let longitude = data.filter(value => { return value.id == "longitude" ; })[0];
-      let latitude = data.filter(value => { return value.id == "latitude" ; })[0];
+      for(var i = 0; i < data.length ; i++) data[i].datapoints[0].at = data[i].datapoints[0].at.substring(0, data[i].datapoints[0].at.length - 4);
+      let gps = data.filter(value => { return value.id == "gps" ; })[0];
+      let longitude = gps.datapoints[0].value.lon
+      longitude = longitude.substring(0, longitude.indexOf('.') + 7).replace('.', '°') + '\'';    //截取小数点后六位小数
+      let latitude = gps.datapoints[0].value.lat;
+      latitude = latitude.substring(0, latitude.indexOf('.') + 7).replace('.', '°') + '\'';       //截取小数点后六位小数
       let hum = data.filter(value => { return value.id == "hum" ; })[0];
       let temp = data.filter(value => { return value.id == "temp" ; })[0];
       let weight = data.filter(value => { return value.id == "weight" ; })[0];
       this.setData({
-        longitude: longitude.datapoints[0], 
-        latitude: latitude.datapoints[0], 
+        gps: gps.datapoints[0], 
+        longitude , 
+        latitude , 
         weight: weight.datapoints[0], 
         temp: temp.datapoints[0], 
         hum: hum.datapoints[0]
       })
+      app.globalData.luggageLatitude = parseFloat(this.data.gps.value.lat)      //给全局变量的行李箱经度赋值
+      app.globalData.luggageLongitude = parseFloat(this.data.gps.value.lon)     //给全局变量的行李箱纬度赋值
   },
   
   // 清除loading 提示框
@@ -219,13 +266,12 @@ Page({
 
   // 获取统计图数据
   statisticalChartData(search_id){
-    // let api_key = JSON.parse(decodeURIComponent(options.key));    //将参数解析出来
-    var newTime = util.formatTime(new Date)           //获取当前日期时间
-    var yesterdaytime = util.formatTime(new Date(new Date().setDate(new Date().getDate()-1)))   //获取前一天的日期时间
     // 获取历史数据请求
+    let start = this.data.startDate +"T"+ this.data.startTime + ":00";
+    let end = this.data.endDate +"T"+ this.data.endTime + ":00";
     var _this = this;
     wx.request({                            //获取指定的onenet历史数据
-      url: 'https://api.heclouds.com/devices/' + app.globalData.device_id +"/datapoints?datastream_id=" + search_id + "&start=" + yesterdaytime + "&end=" + newTime,
+      url: 'https://api.heclouds.com/devices/' + app.globalData.device_id +"/datapoints?datastream_id=" + search_id + "&start=" + start + "&end=" + end,
       method:'GET',
       header:{
         'content-type': 'application/x-www-form-urlencoded',
@@ -234,12 +280,22 @@ Page({
       success: function(res){
         console.log("当前统计图获取到的数据:",search_id,res.data.data.datastreams)
         if(res.data.data.datastreams.length != 0 ){
+          _this.setData({statisticalChartDataFlag: false})              //统计图有数据 （用于在页面没有获取到数据时触发）
           switch(search_id){
             case "temp":{ _this.getTempLineChart(res.data.data.datastreams); }break;
             case "hum":{ _this.getHumLineChart(res.data.data.datastreams); }break;
             case "weight":{ _this.getWeightLineChart(res.data.data.datastreams); }break;
           }
         } 
+        else{
+          console.log("在指定的时间内onenet服务器没有数据(统计图数据为空,无法显示)")
+          _this.setData({statisticalChartDataFlag: true})              //统计图没有数据 （用于在页面没有获取到数据时触发）
+          wx.showToast({
+            title: '统计图数据为空,无法显示',
+            icon: 'none',
+            duration: 2000
+          })
+        }
       },
       fail: function(){
         wx.showToast({
@@ -401,6 +457,12 @@ Page({
         lineStyle: 'curve'
       }
     });
+  },
+  //调用  获取统计图数据  辅助函数
+  callFunction(){
+    this.statisticalChartData("temp")       // 获取统计图数据
+    this.statisticalChartData("hum")         
+    this.statisticalChartData("weight")            
   },
 /*----------------------------------------------辅助函数部分end--------------------------------------------------*/ 
 

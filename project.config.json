@@ -4,7 +4,7 @@
     "ignore": []
   },
   "setting": {
-    "urlCheck": false,
+    "urlCheck": true,
     "es6": true,
     "enhance": false,
     "postcss": true,
@@ -38,7 +38,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.14.0",
-  "appid": "wx2038f9aec9db206f",
+  "appid": "wx6922f4d3c3162fad",
   "projectname": "onenet",
   "debugOptions": {
     "hidedInDevtools": []

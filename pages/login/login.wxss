@@ -1,19 +1,31 @@
-/* pages/login/login.wxss */
+
+page {
+  background-color: #05142B;
+}
 .container {
+  color: #fff;
   height: 100%;
+  /* height: 723px; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 200rpx 0;
   box-sizing: border-box;
-  background-color: #05142B;
+  /* background-color: #05142B; */
 } 
 .logle {
-  width: 360rpx;
-  height: 240rpx;
+  width: 318rpx;
+  height: 222rpx;
   background-color: #05142B;
-
+}
+.logle image {
+  width: 630rpx;
+  height: 156rpx;
+}
+.margintop {
+  margin-top: 30rpx;
+  font-size: 40rpx;
 }
 .weui-input {
   width: 600rpx;
@@ -27,4 +39,6 @@
 .login_btn {
   position: absolute;
   bottom: 200rpx;
+  color: #05142B;
+  background-color: blueviolet;
 }

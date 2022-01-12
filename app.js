@@ -5,8 +5,10 @@ App({
   globalData: {     //设置globalData全局变量
     device_id: "647346049",
     api_key: "9XN2rq5qfwaIuYDMjIt65yg2CBA=",
-    selfLatitude: null,                  //存储自身的纬度
-    selfLongitude: null,                 //存储自身的经度
+    selfLatitude: null,                  //存储自身的经度
+    selfLongitude: null,                 //存储自身的纬度
+    luggageLatitude: null,                  //存储行李箱的经度
+    luggageLongitude: null,                 //存储行李箱的纬度
     refreshTime: 5000,
     userInfo: null ,
   },

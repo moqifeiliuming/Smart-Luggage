@@ -8,7 +8,8 @@ Page({
     showIdFlag: true,                         //是否显示设备ID标志
     showKeyFlag: true,                         //是否显示密钥标志
     showrefreshTime: true ,                   //是否显示刷新时间标志
-    address: '',                              //当前地址
+    address: '',                              //当前微信小程序地址
+    luggageAddress: '',                       //当前行李所在地址
     flag: false ,                             //表单数据是否被修改的标志
   },
     /* ---------------------------------------------处理函数部分start-------------------------------------------------*/ 
@@ -98,10 +99,11 @@ Page({
   },
   /* ---------------------------------------------处理函数部分end-------------------------------------------------*/ 
 /*----------------------------------------------辅助函数部分start--------------------------------------------------*/ 
-  //获取地址
+  //解析地址
   getAddress(){
     var _this = this;
     console.log(app.globalData.selfLatitude,app.globalData.selfLongitude)
+    //微信小程序地址
     wx.request({
       url: 'https://api.jisuapi.com/geoconvert/coord2addr?lat='+ app.globalData.selfLatitude + '&lng='+ app.globalData.selfLongitude + '&type=baidu&appkey=' + _this.data.key, 
 
@@ -109,6 +111,17 @@ Page({
         console.log(res.data.result)
         _this.setData({
           address: res.data.result.address + ' ' + res.data.result.description 
+        })
+      }
+    })
+    //行李箱地址
+    wx.request({
+      url: 'https://api.jisuapi.com/geoconvert/coord2addr?lat='+ app.globalData.luggageLatitude + '&lng='+ app.globalData.luggageLongitude + '&type=baidu&appkey=' + _this.data.key, 
+
+      success (res) {
+        console.log(res.data.result)
+        _this.setData({
+          luggageAddress: res.data.result.address + ' ' + res.data.result.description 
         })
       }
     })

@@ -3,8 +3,11 @@
   <view class="logle">
     <image src="./onenetlogle.png"></image>
   </view>
+  <text class="margintop">设备ID号</text>
   <input class="weui-input" value="{{ device_id }}" maxlength="9" type="number" placeholder="输入设备ID(9位数)" bindinput="device_idHanlde"/>
+  <text class="margintop">设备密钥</text>
   <input class="weui-input" value="{{ api_key }}"  type="text" placeholder="输入密钥" bindinput="api_keyHandle"/>
-  <button class="login_btn" type="primary" bindtap="loginHanlde">登陆Onenet</button>
+  <button class="login_btn"  bindtap="loginHanlde">登陆Onenet</button>
+  <!-- <button class="login_btn"  bindtap="loginHanlde">text</button> -->
 </view>
 

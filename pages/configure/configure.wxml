@@ -26,8 +26,13 @@
     </view>
   </view>
   <view>
-    <text>现在所在：</text>
+    <text>程序所在位置：</text>
     <text wx:if="{{ address }}" class="textColor">{{ address }}</text>
+    <text wx:else class="textColor">正在获取...</text>
+  </view>
+  <view>
+    <text>行李箱所在位置：</text>
+    <text wx:if="{{ luggageAddress }}" class="textColor">{{ luggageAddress }}</text>
     <text wx:else class="textColor">正在获取...</text>
   </view>
   <!-- 修改按钮组 -->
